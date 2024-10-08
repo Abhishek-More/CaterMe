@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+  <head>
+    <title>EZCater DOM</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 10px;
+        width: 300px;
+        max-height: 350px;
+        height: 350px;
+        overflow-y: auto;
+        margin: 0;
+      }
+
+      .content {
+        overflow-y: scroll;
+      }
+
+      .line {
+        margin-bottom: 5px;
+        font-size: 16px;
+        font-weight: normal;
+      }
+
+      .date {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Placed Orders</h2>
+    <div id="cartContent" class="content"></div>
+    <script src="popup.js"></script>
+  </body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "CaterMe",
+  "version": "1.1",
+  "description": "Reads and stores your EzCater order automatically.",
+  "permissions": ["webNavigation", "storage", "scripting"],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "host_permissions": ["https://www.ezcater.com/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.ezcater.com/*"],
+      "js": ["content.js"]
+    }
+  ]
+}
