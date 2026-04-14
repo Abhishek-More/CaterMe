@@ -28,10 +28,43 @@
         font-weight: bold;
         margin-bottom: 20px;
       }
+
+      /* New styles for budget feature */
+      .budget-input {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+
+      .out-of-budget {
+        color: #999;
+        opacity: 0.5;
+        text-decoration: line-through;
+      }
+
+      .budget-info {
+        background-color: #f0f8ff;
+        padding: 8px;
+        border-radius: 4px;
+        margin-bottom: 10px;
+        font-size: 12px;
+        border-left: 3px solid #007cba;
+      }
     </style>
   </head>
   <body>
     <h2>Placed Orders</h2>
+    <input 
+      type="number" 
+      id="budgetInput" 
+      class="budget-input" 
+      placeholder="Enter your budget (optional)" 
+      step="0.01"
+      min="0"
+    >
     <div id="cartContent" class="content"></div>
     <script src="popup.js"></script>
   </body>
