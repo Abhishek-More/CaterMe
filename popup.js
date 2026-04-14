@@ -1,39 +1,47 @@
 const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-document.addEventListener("DOMContentLoaded", () => {
+
+// Function to extract price from a text line
+function extractPrice(text) {
+  const priceMatch = text.match(/\$(\d+\.?\d*)/);
+  return priceMatch ? parseFloat(priceMatch[1]) : 0;
+}
+
+// Function to check if an item is out of budget
+function isOutOfBudget(itemText, budget) {
+  if (!budget || budget <= 0) return false;
+  const price = extractPrice(itemText);
+  return price > budget;
+}
+
+// Function to render orders with budget filtering
+function renderOrders(data, budget = null) {
   const cartContentDiv = document.getElementById("cartContent");
+  cartContentDiv.innerHTML = ''; // Clear existing content
 
-  // Retrieve all stored order text from Chrome storage
-  chrome.storage.local.get(null, (data) => {
-    // Check if there are any stored keys (dates)
-    const dates = Object.keys(data)
-      .filter((key) => dateRegex.test(key))
-      .sort((a, b) => new Date(b) - new Date(a));
-    console.log(data);
+  const dates = Object.keys(data)
+    .filter((key) => dateRegex.test(key))
+    .sort((a, b) => new Date(b) - new Date(a));
 
-    if (dates.length > 0) {
-      // Iterate over each date and display its associated text content
-      dates.forEach((date) => {
-        const dateDiv = document.createElement("div");
-        dateDiv.className = "date"; // Class for date styling
-        dateDiv.textContent = date; // Display the date
-        cartContentDiv.appendChild(dateDiv); // Append date to the container
-
-        // const contentDiv = document.createElement("div");
-        // contentDiv.className = "content"; // Class for content styling
-
-        // Split the text content by newlines and create a div for each line
-        const lines = data[date].split("|"); // Use newline separator
-
-        lines.forEach((line) => {
-          console.log(line);
-          const lineDiv = document.createElement("div");
-          lineDiv.className = "line"; // Add class for styling
-          lineDiv.textContent = line; // Set the text content
-          dateDiv.appendChild(lineDiv); // Append to content div
-        });
-      });
-    } else {
-      cartContentDiv.textContent = "No order found."; // Handle empty case
+  if (dates.length > 0) {
+    // Add budget info if budget is set
+    if (budget && budget > 0) {
+      const budgetInfoDiv = document.createElement("div");
+      budgetInfoDiv.className = "budget-info";
+      budgetInfoDiv.textContent = `Budget: $${budget.toFixed(2)} - Items over budget are grayed out`;
+      cartContentDiv.appendChild(budgetInfoDiv);
     }
-  });
-});
+
+    dates.forEach((date) => {
+      const dateDiv = document.createElement("div");
+      dateDiv.className = "date";
+      dateDiv.textContent = date;
+      cartContentDiv.appendChild(dateDiv);
+
+      const lines = data[date].split("|");
+
+      lines.forEach((line) => {
+        if (line.trim()) {
+          const lineDiv = document.createElement("div");
+          lineDiv.className = "line";
+          
+
